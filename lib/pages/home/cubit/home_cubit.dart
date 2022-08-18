@@ -6,7 +6,7 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final UsersRepository usersRepository;
 
-  HomeCubit(super.initialState, this.usersRepository);
+  HomeCubit(this.usersRepository) : super(HomeInitialState());
 
   void fetchUsers() async {
     final usersEither = await usersRepository.getUsers();

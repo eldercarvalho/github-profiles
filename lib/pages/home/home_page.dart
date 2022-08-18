@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:github_profiles/repositories/users/users_repository_impl.dart';
-import 'package:github_profiles/services/github_api/github_api_impl.dart';
 
 import 'cubit/cubit.dart';
+import '../../core/injections.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,10 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final HomeCubit _homeCubit = HomeCubit(
-    HomeInitialState(),
-    UsersRepositoryImpl(gitHubApi: GitHubApiImpl()),
-  );
+  final HomeCubit _homeCubit = getIt<HomeCubit>();
 
   @override
   void initState() {
