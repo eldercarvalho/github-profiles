@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:github_profiles/services/github_api/github_api.dart';
 import 'package:http/http.dart' as http;
+// import 'fixture.dart';
 
 const baseUrl = "https://api.github.com";
 const token = "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";
@@ -21,6 +22,7 @@ class GitHubApiImpl implements GitHubApi {
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
+      print(response.body);
       throw Exception('Failed to retrieve response for $resource');
     }
   }

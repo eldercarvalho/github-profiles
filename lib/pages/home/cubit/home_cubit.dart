@@ -1,20 +1,37 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:github_profiles/entities/user_entity.dart';
 import 'package:github_profiles/repositories/users/user_repository.dart';
+import 'package:github_profiles/services/contacts/contacts_service.dart';
 
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final UserRepository userRepository;
+  final ContactsService contactsService;
+  List<UserEntity> _users = [];
 
-  HomeCubit(this.userRepository) : super(HomeInitialState());
+  HomeCubit({
+    required this.userRepository,
+    required this.contactsService,
+  }) : super(HomeInitialState());
 
-  void fetchUsers() async {
+  void fetchUsers({bool cached = false}) async {
     emit(HomeLoadingState());
+
+    if (cached) {
+      emit(HomeSuccessState(users: _users));
+      return;
+    }
+
     final usersEither = await userRepository.getUsers();
 
     usersEither.fold(
       (failure) => emit(HomeFailureState()),
-      (users) => emit(HomeSuccessState(users: users)),
+      (users) {
+        _users = users;
+        emit(HomeSuccessState(users: users));
+      },
     );
   }
 
@@ -26,5 +43,11 @@ class HomeCubit extends Cubit<HomeState> {
       (failure) => emit(HomeFailureState()),
       (user) => emit(HomeSearchSuccessState(user: user)),
     );
+  }
+
+  Future<void> fetchContacts() async {
+    final contacts = await contactsService.fetchContacts();
+    fetchUsers();
+    emit(HomeContactsState(contacts: contacts));
   }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:github_profiles/services/contacts/contacts_service.dart';
 
 import 'package:github_profiles/core/debounce.dart';
 import 'package:github_profiles/core/injections.dart';
+import 'package:github_profiles/entities/user_entity.dart';
 
 import 'cubit/cubit.dart';
 
@@ -17,17 +20,21 @@ class _HomePageState extends State<HomePage> {
   final _homeCubit = getIt<HomeCubit>();
   final _focusNode = FocusNode();
   final _debounce = Debounce(const Duration(milliseconds: 400));
-  final _controller = TextEditingController();
+  List<AppContact>? _contacts;
   bool _isSearch = false;
 
   @override
   void initState() {
-    _homeCubit.fetchUsers();
-
-    _controller.addListener(() {
-      _debounce(() => _onSearchChanged(_controller.text));
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
+      await _homeCubit.fetchContacts();
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _homeCubit.close();
+    super.dispose();
   }
 
   @override
@@ -37,17 +44,16 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: _isSearch
             ? TextField(
-                controller: _controller,
                 focusNode: _focusNode,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                 ),
+                onChanged: (value) => _debounce(() => _onSearchChanged(value)),
               )
             : Row(
                 children: const [
-                  Icon(Icons.report),
+                  // Icon(Icons.report),
                   Text('GitHub Profiles'),
                 ],
               ),
@@ -59,8 +65,16 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: BlocBuilder<HomeCubit, HomeState>(
+      body: BlocConsumer<HomeCubit, HomeState>(
         bloc: _homeCubit,
+        listener: (context, state) {
+          if (state is HomeContactsState) {
+            setState(() => _contacts = state.contacts);
+            // _homeCubit.fetchUsers();
+          }
+        },
+        listenWhen: (oldState, state) => state is HomeContactsState,
+        buildWhen: (oldState, state) => state is! HomeContactsState,
         builder: (context, state) {
           if (state is HomeSuccessState) {
             return ListView.builder(
@@ -73,13 +87,26 @@ class _HomePageState extends State<HomePage> {
                     child: Image.network(user.avatarUrl),
                   ),
                   title: Text(state.users[index].login),
+                  trailing: _checkIfUserIsInContacts(user)
+                      ? const Icon(Icons.check)
+                      : null,
                 );
               },
             );
           }
 
           if (state is HomeSearchSuccessState) {
-            return Text(state.user.login);
+            final user = state.user;
+            return ListTile(
+              leading: CircleAvatar(
+                radius: 20,
+                child: Image.network(user.avatarUrl),
+              ),
+              title: Text(user.login),
+              trailing: _checkIfUserIsInContacts(user)
+                  ? const Icon(Icons.check)
+                  : null,
+            );
           }
 
           if (state is HomeFailureState) {
@@ -104,8 +131,8 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
+    _homeCubit.fetchUsers(cached: true);
     _focusNode.unfocus();
-    _homeCubit.fetchUsers();
   }
 
   void _onSearchChanged(String value) {
@@ -115,5 +142,10 @@ class _HomePageState extends State<HomePage> {
     }
 
     _homeCubit.fetchUsers();
+  }
+
+  bool _checkIfUserIsInContacts(UserEntity user) {
+    return _contacts?.any((contact) => contact.displayName == user.login) ??
+        false;
   }
 }
