@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:github_profiles/repositories/users/users_repository.dart';
+import 'package:github_profiles/repositories/users/user_repository.dart';
 
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final UsersRepository usersRepository;
+  final UserRepository usersRepository;
 
   HomeCubit(this.usersRepository) : super(HomeInitialState());
 
@@ -12,7 +12,7 @@ class HomeCubit extends Cubit<HomeState> {
     final usersEither = await usersRepository.getUsers();
 
     usersEither.fold(
-      (failure) => null,
+      (failure) => emit(HomeFailureState()),
       (users) => emit(HomeSuccessState(users: users)),
     );
   }

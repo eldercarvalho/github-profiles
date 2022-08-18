@@ -4,12 +4,12 @@ import 'package:github_profiles/models/user_model.dart';
 import 'package:github_profiles/entities/user_entity.dart';
 import 'package:github_profiles/services/github_api/github_api.dart';
 
-import 'users_repository.dart';
+import 'user_repository.dart';
 
-class UsersRepositoryImpl extends UsersRepository {
+class UserRepositoryImpl extends UserRepository {
   final GitHubApi gitHubApi;
 
-  UsersRepositoryImpl({required this.gitHubApi});
+  UserRepositoryImpl({required this.gitHubApi});
 
   @override
   Future<Either<Error, List<UserEntity>>> getUsers() async {
