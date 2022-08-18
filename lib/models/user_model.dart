@@ -19,6 +19,7 @@ class UserModel extends UserEntity {
     required super.eventsUrl,
     required super.receivedEventsUrl,
     required super.type,
+    required super.name,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -40,6 +41,7 @@ class UserModel extends UserEntity {
       eventsUrl: json["events_url"],
       receivedEventsUrl: json["received_events_url"],
       type: json["type"],
+      name: json["name"] ?? "",
     );
   }
 }

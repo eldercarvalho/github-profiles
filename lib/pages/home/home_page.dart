@@ -14,14 +14,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final HomeCubit _homeCubit = getIt<HomeCubit>();
-  final FocusNode _focusNode = FocusNode();
-  final Debounce _debounce = Debounce(const Duration(milliseconds: 400));
+  final _homeCubit = getIt<HomeCubit>();
+  final _focusNode = FocusNode();
+  final _debounce = Debounce(const Duration(milliseconds: 400));
+  final _controller = TextEditingController();
   bool _isSearch = false;
 
   @override
   void initState() {
     _homeCubit.fetchUsers();
+
+    _controller.addListener(() {
+      _debounce(() => _onSearchChanged(_controller.text));
+    });
     super.initState();
   }
 
@@ -32,11 +37,13 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: _isSearch
             ? TextField(
+                controller: _controller,
                 focusNode: _focusNode,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
                 ),
-                onChanged: _onSearchChanged,
               )
             : Row(
                 children: const [
@@ -46,14 +53,7 @@ class _HomePageState extends State<HomePage> {
               ),
         actions: [
           IconButton(
-            onPressed: () {
-              setState(() => _isSearch = !_isSearch);
-              if (_isSearch) {
-                _focusNode.requestFocus();
-              } else {
-                _focusNode.unfocus();
-              }
-            },
+            onPressed: _showSearch,
             icon:
                 _isSearch ? const Icon(Icons.close) : const Icon(Icons.search),
           ),
@@ -78,6 +78,16 @@ class _HomePageState extends State<HomePage> {
             );
           }
 
+          if (state is HomeSearchSuccessState) {
+            return Text(state.user.login);
+          }
+
+          if (state is HomeFailureState) {
+            return const Center(
+              child: Text('Deu pau'),
+            );
+          }
+
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -86,7 +96,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _showSearch() {
+    setState(() => _isSearch = !_isSearch);
+
+    if (_isSearch) {
+      _focusNode.requestFocus();
+      return;
+    }
+
+    _focusNode.unfocus();
+    _homeCubit.fetchUsers();
+  }
+
   void _onSearchChanged(String value) {
-    _debounce(() => print(value));
+    if (value.isNotEmpty) {
+      _homeCubit.fetchUserInfo(value);
+      return;
+    }
+
+    _homeCubit.fetchUsers();
   }
 }

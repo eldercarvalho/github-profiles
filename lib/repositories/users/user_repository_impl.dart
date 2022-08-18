@@ -23,4 +23,16 @@ class UserRepositoryImpl extends UserRepository {
       return left(Error());
     }
   }
+
+  @override
+  Future<Either<Error, UserEntity>> getUserInfo(String userLoginId) async {
+    try {
+      final result = await gitHubApi.getUserInformation(userLoginId);
+      final user = UserModel.fromJson(result);
+      return right(user);
+    } catch (err) {
+      print(err);
+      return left(Error());
+    }
+  }
 }
