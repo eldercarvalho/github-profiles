@@ -6,9 +6,7 @@ import 'package:github_profiles/services/github_api/github_api_impl.dart';
 import 'cubit/cubit.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -30,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('GitHub Profiles'),
       ),
       body: BlocBuilder<HomeCubit, HomeState>(
         bloc: _homeCubit,
