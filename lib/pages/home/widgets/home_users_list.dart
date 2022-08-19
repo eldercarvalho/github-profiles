@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:github_profiles/entities/user_entity.dart';
 import 'package:github_profiles/services/contacts/contacts_service.dart';
@@ -14,6 +15,8 @@ class HomeUsersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = AutoRouter.of(context);
+
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, index) {
@@ -26,6 +29,7 @@ class HomeUsersList extends StatelessWidget {
           title: Text(users[index].login),
           trailing:
               _checkIfUserIsInContacts(user) ? const Icon(Icons.check) : null,
+          onTap: () => router.pushNamed('/profile/${user.login}'),
         );
       },
     );

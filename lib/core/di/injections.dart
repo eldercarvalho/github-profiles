@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:github_profiles/pages/home/cubit/home_cubit.dart';
+import 'package:github_profiles/pages/profile/cubit/profile_cubit.dart';
 import 'package:github_profiles/repositories/users/user_repository.dart';
 import 'package:github_profiles/repositories/users/user_repository_impl.dart';
 import 'package:github_profiles/services/connection/connection.dart';
@@ -15,6 +16,12 @@ Future<void> init() async {
     () => HomeCubit(
       userRepository: getIt(),
       contactsService: getIt(),
+    ),
+  );
+
+  getIt.registerFactory(
+    () => ProfileCubit(
+      userRepository: getIt(),
     ),
   );
 

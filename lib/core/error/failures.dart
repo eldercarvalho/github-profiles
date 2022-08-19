@@ -1,6 +1,28 @@
 import 'package:equatable/equatable.dart';
 
+import 'exceptions.dart';
+
 abstract class Failure extends Equatable {
+  static Failure parseExceptionToFailure(Object exception) {
+    if (exception is Exception) {
+      if (exception is NotFoundException) {
+        return ServerFailure(statusCode: 404);
+      }
+
+      if (exception is ServerException) {
+        return ServerFailure();
+      }
+
+      if (exception is NotConnectionException) {
+        return NoConnectionFailure();
+      }
+
+      return AppFailure();
+    }
+
+    return AppFailure();
+  }
+
   @override
   List<Object?> get props => [];
 }

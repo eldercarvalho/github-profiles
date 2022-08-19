@@ -1,45 +1,55 @@
+import 'package:intl/intl.dart';
 import 'package:equatable/equatable.dart';
 
 class UserEntity extends Equatable {
   final String login;
   final int id;
-  final String nodeId;
   final String avatarUrl;
-  final String gravatarId;
-  final String url;
-  final String htmlUrl;
-  final String followersUrl;
-  final String followingUrl;
-  final String gistsUrl;
-  final String starredUrl;
-  final String subscriptionsUrl;
-  final String organizationsUrl;
-  final String reposUrl;
-  final String eventsUrl;
-  final String receivedEventsUrl;
-  final String type;
-  final String name;
+  final String? name;
+  final String? blog;
+  final String? location;
+  final String? email;
+  final String? bio;
+  final String? twitterUsername;
+  final int? publicRepos;
+  final int? followers;
+  final int? following;
+  final String? createdAt;
 
   const UserEntity({
     required this.login,
     required this.id,
-    required this.nodeId,
     required this.avatarUrl,
-    required this.gravatarId,
-    required this.url,
-    required this.htmlUrl,
-    required this.followersUrl,
-    required this.followingUrl,
-    required this.gistsUrl,
-    required this.starredUrl,
-    required this.subscriptionsUrl,
-    required this.organizationsUrl,
-    required this.reposUrl,
-    required this.eventsUrl,
-    required this.receivedEventsUrl,
-    required this.type,
-    required this.name,
+    this.name,
+    this.blog,
+    this.location,
+    this.email,
+    this.bio,
+    this.twitterUsername,
+    this.publicRepos,
+    this.followers,
+    this.following,
+    this.createdAt,
   });
+
+  bool get hasName => name != null;
+  bool get hasBlog => blog != null;
+  bool get hasLocation => name != null;
+  bool get hasEmail => email != null;
+  bool get hasBio => bio != null;
+  bool get hasTwitterUsername => twitterUsername != null;
+  bool get hasPublicRepos => publicRepos != null;
+  bool get hasFollowers => followers != null;
+  bool get hasFollowing => following != null;
+  bool get hasCreatedAt => createdAt != null;
+
+  String? get readableCreatedAt {
+    if (hasCreatedAt) {
+      final date = DateTime.parse(createdAt!);
+      return DateFormat.yMEd().format(date);
+    }
+    return null;
+  }
 
   @override
   List<Object?> get props => [id, login];

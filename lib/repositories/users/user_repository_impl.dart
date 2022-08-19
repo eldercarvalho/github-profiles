@@ -35,33 +35,15 @@ class UserRepositoryImpl extends UserRepository {
 
   Future<Either<Failure, T>> _fetch<T>(Future<T> Function() callback) async {
     try {
-      if (!await connectionService.checkConnection()) {
+      final hasConnection = await connectionService.checkConnection();
+
+      if (!hasConnection) {
         throw const NotConnectionException();
       }
 
       return right(await callback());
     } catch (err) {
-      return left(_parseExceptionToFailure(err));
+      return left(Failure.parseExceptionToFailure(err));
     }
-  }
-
-  Failure _parseExceptionToFailure(Object exception) {
-    if (exception is Exception) {
-      if (exception is NotFoundException) {
-        return ServerFailure(statusCode: 404);
-      }
-
-      if (exception is ServerException) {
-        return ServerFailure();
-      }
-
-      if (exception is NotConnectionException) {
-        return NoConnectionFailure();
-      }
-
-      return AppFailure();
-    }
-
-    return AppFailure();
   }
 }
