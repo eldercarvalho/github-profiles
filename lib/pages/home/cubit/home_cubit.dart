@@ -41,7 +41,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     userEither.fold(
       (failure) => emit(HomeFailureState()),
-      (user) => emit(HomeSearchSuccessState(user: user)),
+      (user) => emit(HomeSuccessState(users: [user])),
     );
   }
 

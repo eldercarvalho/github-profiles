@@ -15,12 +15,6 @@ class HomeSuccessState extends HomeState {
   HomeSuccessState({required this.users});
 }
 
-class HomeSearchSuccessState extends HomeState {
-  final UserEntity user;
-
-  HomeSearchSuccessState({required this.user});
-}
-
 class HomeLoadingState extends HomeState {}
 
 class HomeFailureState extends HomeState {}
