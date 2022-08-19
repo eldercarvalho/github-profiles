@@ -16,6 +16,7 @@ class HomeSearchField extends StatelessWidget {
       focusNode: focusNode,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
+        enabledBorder: InputBorder.none,
         focusedBorder: InputBorder.none,
       ),
       onChanged: onChanged,

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:github_profiles/pages/home/home_page.dart';
+import 'package:github_profiles/routes/app_router.gr.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  final appRouter = AppRouter();
+
+  App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'GitHub Profiles',
       theme: ThemeData.dark(),
-      home: const HomePage(),
+      routerDelegate: appRouter.delegate(),
+      routeInformationParser: appRouter.defaultRouteParser(),
     );
   }
 }
