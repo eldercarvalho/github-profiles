@@ -64,6 +64,6 @@ class _HomeAppBarState extends State<HomeAppBar> {
       return;
     }
 
-    homeCubit.fetchUsers();
+    homeCubit.fetchUsers(cached: true);
   }
 }

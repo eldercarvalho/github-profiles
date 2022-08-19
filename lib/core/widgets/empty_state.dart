@@ -15,6 +15,10 @@ class EmptyState extends StatelessWidget {
       return 'no-results.png';
     }
 
+    if (failure is NoConnectionFailure) {
+      return 'no-connection.png';
+    }
+
     return 'error.png';
   }
 
