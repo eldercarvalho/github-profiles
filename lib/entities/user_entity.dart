@@ -33,14 +33,23 @@ class UserEntity extends Equatable {
   });
 
   bool get hasName => name != null;
+
   bool get hasBlog => blog != null;
+  
   bool get hasLocation => name != null;
+  
   bool get hasEmail => email != null;
+  
   bool get hasBio => bio != null;
+  
   bool get hasTwitterUsername => twitterUsername != null;
+  
   bool get hasPublicRepos => publicRepos != null;
+  
   bool get hasFollowers => followers != null;
+  
   bool get hasFollowing => following != null;
+  
   bool get hasCreatedAt => createdAt != null;
 
   String? get readableCreatedAt {
