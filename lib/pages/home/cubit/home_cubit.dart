@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:github_profiles/entities/user_entity.dart';
@@ -9,18 +11,27 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final UserRepository userRepository;
   final ContactsService contactsService;
-  List<UserEntity> _users = [];
+  List<UserEntity> _cachedUsers = [];
+  late Timer _timer;
+
+  final StreamController<DateTime> _controller = StreamController();
+  Stream<DateTime> get updateTime => _controller.stream;
 
   HomeCubit({
     required this.userRepository,
     required this.contactsService,
-  }) : super(HomeInitialState());
+  }) : super(HomeInitialState()) {
+    _timer = Timer.periodic(
+      const Duration(seconds: 15),
+      (timer) => _controller.add(DateTime.now()),
+    );
+  }
 
   void fetchUsers({bool cached = false}) async {
     emit(HomeLoadingState());
 
     if (cached) {
-      emit(HomeSuccessState(users: _users));
+      emit(HomeSuccessState(users: _cachedUsers));
       return;
     }
 
@@ -29,7 +40,7 @@ class HomeCubit extends Cubit<HomeState> {
     usersEither.fold(
       (failure) => emit(HomeFailureState(failure: failure)),
       (users) {
-        _users = users;
+        _cachedUsers = users;
         emit(HomeSuccessState(users: users));
       },
     );
@@ -49,5 +60,12 @@ class HomeCubit extends Cubit<HomeState> {
     final contacts = await contactsService.fetchContacts();
     fetchUsers();
     emit(HomeContactsState(contacts: contacts));
+  }
+
+  @override
+  Future<void> close() {
+    _timer.cancel();
+    _controller.close();
+    return super.close();
   }
 }

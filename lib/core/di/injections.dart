@@ -11,7 +11,6 @@ final getIt = GetIt.instance;
 
 Future<void> init() async {
   // Cubits
-
   getIt.registerFactory(
     () => HomeCubit(
       userRepository: getIt(),
@@ -20,7 +19,6 @@ Future<void> init() async {
   );
 
   // Repositories
-
   getIt.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
       gitHubApi: getIt(),
@@ -29,7 +27,6 @@ Future<void> init() async {
   );
 
   // Services
-
   getIt.registerLazySingleton<GitHubApi>(
     () => GitHubApiImpl(),
   );
