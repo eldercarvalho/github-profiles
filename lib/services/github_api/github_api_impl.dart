@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'package:github_profiles/services/github_api/github_api.dart';
 import 'package:http/http.dart' as http;
-// import 'fixture.dart';
+
+import 'package:github_profiles/core/core.dart';
+import 'package:github_profiles/services/github_api/github_api.dart';
 
 const baseUrl = "https://api.github.com";
 const token = "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";
@@ -19,12 +20,23 @@ class GitHubApiImpl implements GitHubApi {
         HttpHeaders.authorizationHeader: token,
       },
     );
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      print(response.body);
-      throw Exception('Failed to retrieve response for $resource');
+
+    print(response.body);
+
+    switch (response.statusCode) {
+      case 200:
+        return jsonDecode(response.body);
+      case 404:
+        throw const NotFoundException();
+      default:
+        throw const ServerException();
     }
+
+    // if (response.statusCode == 200) {
+    //   return jsonDecode(response.body);
+    // } else {
+    //   throw ServerException('Failed to retrieve response for $resource');
+    // }
   }
 
   int _next() => 2000 + _random.nextInt(15000);

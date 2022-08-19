@@ -27,7 +27,7 @@ class HomeCubit extends Cubit<HomeState> {
     final usersEither = await userRepository.getUsers();
 
     usersEither.fold(
-      (failure) => emit(HomeFailureState()),
+      (failure) => emit(HomeFailureState(failure: failure)),
       (users) {
         _users = users;
         emit(HomeSuccessState(users: users));
@@ -40,7 +40,7 @@ class HomeCubit extends Cubit<HomeState> {
     final userEither = await userRepository.getUserInfo(userLoginId);
 
     userEither.fold(
-      (failure) => emit(HomeFailureState()),
+      (failure) => emit(HomeFailureState(failure: failure)),
       (user) => emit(HomeSuccessState(users: [user])),
     );
   }

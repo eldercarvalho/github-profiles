@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:github_profiles/core/injections.dart';
+import 'package:github_profiles/core/di/injections.dart';
 
 import 'app.dart';
 

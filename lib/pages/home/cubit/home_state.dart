@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+
+import 'package:github_profiles/core/core.dart';
 import 'package:github_profiles/entities/user_entity.dart';
 import 'package:github_profiles/services/contacts/contacts_service.dart';
 
@@ -17,7 +19,11 @@ class HomeSuccessState extends HomeState {
 
 class HomeLoadingState extends HomeState {}
 
-class HomeFailureState extends HomeState {}
+class HomeFailureState extends HomeState {
+  final Failure failure;
+
+  HomeFailureState({required this.failure});
+}
 
 class HomeContactsState extends HomeState {
   final List<AppContact>? contacts;

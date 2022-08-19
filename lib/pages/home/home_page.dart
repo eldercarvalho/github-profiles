@@ -17,10 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _homeCubit = getIt<HomeCubit>();
-  final _focusNode = FocusNode();
-  final _debounce = Debounce(const Duration(milliseconds: 400));
   List<AppContact>? _contacts;
-  final bool _isSearch = false;
 
   @override
   void initState() {
@@ -60,8 +57,8 @@ class _HomePageState extends State<HomePage> {
             }
 
             if (state is HomeFailureState) {
-              return const Center(
-                child: Text('Deu pau'),
+              return EmptyState(
+                failure: state.failure,
               );
             }
 
