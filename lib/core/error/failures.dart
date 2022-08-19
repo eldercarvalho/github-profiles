@@ -5,6 +5,8 @@ abstract class Failure extends Equatable {
   List<Object?> get props => [];
 }
 
+class AppFailure extends Failure {}
+
 class ServerFailure extends Failure {
   final int statusCode;
 

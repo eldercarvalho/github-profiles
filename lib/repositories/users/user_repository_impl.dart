@@ -20,7 +20,7 @@ class UserRepositoryImpl extends UserRepository {
           List.from(result).map((user) => UserModel.fromJson(user)).toList();
       return right(usersList);
     } catch (err) {
-      return left(ServerFailure());
+      return left(_parseExceptionToFailure(err));
     }
   }
 
@@ -31,13 +31,27 @@ class UserRepositoryImpl extends UserRepository {
       final user = UserModel.fromJson(result);
       return right(user);
     } catch (err) {
-      final failure = err as Exception;
+      return left(_parseExceptionToFailure(err));
+    }
+  }
 
-      if (failure is NotFoundException) {
-        return left(ServerFailure(statusCode: 404));
+  Failure _parseExceptionToFailure(Object exception) {
+    if (exception is Exception) {
+      if (exception is NotFoundException) {
+        return ServerFailure(statusCode: 404);
       }
 
-      return left(ServerFailure());
+      if (exception is ServerException) {
+        return ServerFailure();
+      }
+
+      if (exception is NotConnectionException) {
+        return NoConnectionFailure();
+      }
+
+      return AppFailure();
     }
+
+    return AppFailure();
   }
 }

@@ -5,3 +5,8 @@ class ServerException implements Exception {
 class NotFoundException implements Exception {
   const NotFoundException();
 }
+
+class NotConnectionException implements Exception {
+  const NotConnectionException();
+}
+

@@ -15,6 +15,9 @@ class HomeSuccessState extends HomeState {
   final List<UserEntity> users;
 
   HomeSuccessState({required this.users});
+
+  @override
+  List<Object?> get props => [users];
 }
 
 class HomeLoadingState extends HomeState {}
@@ -23,10 +26,16 @@ class HomeFailureState extends HomeState {
   final Failure failure;
 
   HomeFailureState({required this.failure});
+
+  @override
+  List<Object?> get props => [failure];
 }
 
 class HomeContactsState extends HomeState {
   final List<AppContact>? contacts;
 
   HomeContactsState({this.contacts});
+
+  @override
+  List<Object?> get props => [contacts];
 }
