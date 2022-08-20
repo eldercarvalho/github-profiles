@@ -4,14 +4,9 @@ import 'package:github_profiles/pages/pages.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: [
-    AutoRoute(
-      page: HomePage,
-      initial: true,
-    ),
-    AutoRoute(
-      path: '/profile/:userLogin',
-      page: ProfilePage,
-    ),
+    AutoRoute(page: HomePage, initial: true),
+    AutoRoute(path: '/profile/:userLogin', page: ProfilePage),
+    AutoRoute(path: '/repos/:userLogin', page: ReposPage),
   ],
 )
 class $AppRouter {}

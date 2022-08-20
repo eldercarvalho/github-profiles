@@ -1,8 +1,6 @@
 import 'package:get_it/get_it.dart';
-import 'package:github_profiles/pages/home/cubit/home_cubit.dart';
-import 'package:github_profiles/pages/profile/cubit/profile_cubit.dart';
-import 'package:github_profiles/repositories/users/user_repository.dart';
-import 'package:github_profiles/repositories/users/user_repository_impl.dart';
+import 'package:github_profiles/pages/pages.dart';
+import 'package:github_profiles/repositories/repositories.dart';
 import 'package:github_profiles/services/connection/connection.dart';
 import 'package:github_profiles/services/contacts/contacts_service.dart';
 import 'package:github_profiles/services/contacts/contacts_service_impl.dart';
@@ -25,9 +23,22 @@ Future<void> init() async {
     ),
   );
 
+  getIt.registerFactory(
+    () => ReposCubit(
+      repoRepository: getIt(),
+    ),
+  );
+
   // Repositories
   getIt.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
+      gitHubApi: getIt(),
+      connectionService: getIt(),
+    ),
+  );
+
+  getIt.registerLazySingleton<RepoRepository>(
+    () => RepoRepositoryImpl(
       gitHubApi: getIt(),
       connectionService: getIt(),
     ),

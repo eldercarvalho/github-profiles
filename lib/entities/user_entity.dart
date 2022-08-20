@@ -36,7 +36,7 @@ class UserEntity extends Equatable {
 
   bool get hasBlog => blog != null;
   
-  bool get hasLocation => name != null;
+  bool get hasLocation => location != null;
   
   bool get hasEmail => email != null;
   

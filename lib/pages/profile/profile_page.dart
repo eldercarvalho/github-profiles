@@ -27,8 +27,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
+  void dispose() {
+    _profileCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final router = AutoRouter.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,6 +66,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   if (user.hasCreatedAt) Text(user.readableCreatedAt!),
                   if (user.hasTwitterUsername) Text(user.twitterUsername!),
                   if (user.hasPublicRepos) Text('${user.publicRepos}'),
+                  ElevatedButton(
+                    onPressed: () =>
+                        router.pushNamed('/repos/${widget.userLogin}'),
+                    child: const Text('See Repos'),
+                  ),
                 ],
               ),
             );

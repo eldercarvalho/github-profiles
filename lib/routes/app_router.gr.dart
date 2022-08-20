@@ -34,13 +34,23 @@ class AppRouter extends _i2.RootStackRouter {
       return _i2.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i1.ProfilePage(key: args.key, userLogin: args.userLogin));
+    },
+    ReposRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ReposRouteArgs>(
+          orElse: () =>
+              ReposRouteArgs(userLogin: pathParams.getString('userLogin')));
+      return _i2.MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: _i1.ReposPage(key: args.key, userLogin: args.userLogin));
     }
   };
 
   @override
   List<_i2.RouteConfig> get routes => [
         _i2.RouteConfig(HomeRoute.name, path: '/'),
-        _i2.RouteConfig(ProfileRoute.name, path: '/profile/:userLogin')
+        _i2.RouteConfig(ProfileRoute.name, path: '/profile/:userLogin'),
+        _i2.RouteConfig(ReposRoute.name, path: '/repos/:userLogin')
       ];
 }
 
@@ -74,5 +84,30 @@ class ProfileRouteArgs {
   @override
   String toString() {
     return 'ProfileRouteArgs{key: $key, userLogin: $userLogin}';
+  }
+}
+
+/// generated route for
+/// [_i1.ReposPage]
+class ReposRoute extends _i2.PageRouteInfo<ReposRouteArgs> {
+  ReposRoute({_i3.Key? key, required String userLogin})
+      : super(ReposRoute.name,
+            path: '/repos/:userLogin',
+            args: ReposRouteArgs(key: key, userLogin: userLogin),
+            rawPathParams: {'userLogin': userLogin});
+
+  static const String name = 'ReposRoute';
+}
+
+class ReposRouteArgs {
+  const ReposRouteArgs({this.key, required this.userLogin});
+
+  final _i3.Key? key;
+
+  final String userLogin;
+
+  @override
+  String toString() {
+    return 'ReposRouteArgs{key: $key, userLogin: $userLogin}';
   }
 }

@@ -4,11 +4,11 @@ class RepoModel extends RepoEntity {
   const RepoModel({
     required super.id,
     required super.name,
-    required super.description,
     required super.stargazersCount,
     required super.watchersCount,
-    required super.language,
-    required super.forkCount,
+    required super.forksCount,
+    super.description,
+    super.language,
     super.homepage,
   });
 
@@ -20,7 +20,7 @@ class RepoModel extends RepoEntity {
       stargazersCount: json["stargazers_count"],
       watchersCount: json["watchers_count"],
       language: json["language"],
-      forkCount: json["fork_count"],
+      forksCount: json["forks_count"],
       homepage: json["homepage"],
     );
   }
