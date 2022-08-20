@@ -15,17 +15,41 @@ class ProfileAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(height: 216),
         Container(
-          height: 116,
+          height: 216,
           color: onBackgroundColor,
         ),
         Positioned.fill(
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: CircleAvatar(
-              radius: 100,
-              backgroundImage: NetworkImage(user.avatarUrl),
+            child: Container(
+              height: 100,
+              decoration: const BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 1,
+                  color: borderColor,
+                  style: BorderStyle.solid,
+                ),
+              ),
+              child: CircleAvatar(
+                radius: 100,
+                backgroundImage: NetworkImage(user.avatarUrl),
+              ),
             ),
           ),
         )

@@ -47,5 +47,9 @@
 	<true/>
 	<key>NSContactsUsageDescription</key>  
 	<string>This app requires contacts access to function properly.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>tel</string>
+	</array>
 </dict>
 </plist>

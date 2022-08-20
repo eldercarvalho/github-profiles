@@ -103,6 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   visible: user.hasBlog,
                   iconData: Icons.link,
                   text: user.blog,
+                  linked: true,
                 ),
                 ProfileIconInfo(
                   visible: user.hasCompany,
@@ -141,7 +142,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   text: 'User since ${user.readableCreatedAt}',
                 ),
                 const SizedBox(height: 16),
-                ElevatedButton(
+                RawMaterialButton(
+                  fillColor: onBackgroundColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: const BorderSide(
+                        width: 1,
+                        color: borderColor,
+                        style: BorderStyle.solid,
+                      )),
                   onPressed: () =>
                       router.pushNamed('/repos/${widget.userLogin}'),
                   child: const Text('Repositories'),
@@ -154,7 +163,3 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
-
-
-
-

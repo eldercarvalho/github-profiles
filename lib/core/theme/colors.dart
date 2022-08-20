@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xff58a6ff);
 const backgroundColor = Color(0xff0d1117);
-const onBackgroundColor = Color(0xff161b22);
-const borderColor = Color(0xff21262d);
+const onBackgroundColor = Color(0xff21262d);
+const borderColor = Color(0xff30363d);
 const bodyTextColor = Color(0xffc9d1d9);
+const linkColor = Color(0xff58a6ff);
 
 final techColors = {
   "TypeScript": 0xff3178c6,

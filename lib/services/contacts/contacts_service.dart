@@ -5,6 +5,7 @@ class AppContact extends Contact {
     super.id,
     super.displayName,
     super.emails,
+    super.phones,
   });
 }
 

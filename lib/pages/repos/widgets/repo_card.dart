@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:github_profiles/core/core.dart';
 import 'package:github_profiles/entities/repo_entity.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RepoCard extends StatelessWidget {
   const RepoCard({
@@ -51,10 +52,15 @@ class RepoCard extends StatelessWidget {
                 const Icon(Icons.link, size: 18),
                 const SizedBox(width: 6),
                 Expanded(
-                  child: Text(
-                    repo.homepage!,
-                    style: theme.textTheme.bodyText1,
-                    overflow: TextOverflow.ellipsis,
+                  child: GestureDetector(
+                    onTap: () => _openUrl(repo.homepage!),
+                    child: Text(
+                      repo.homepage!,
+                      style: theme.textTheme.bodyText2?.copyWith(
+                        color: linkColor,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ],
@@ -106,6 +112,13 @@ class RepoCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _openUrl(String url) async {
+    await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
     );
   }
 }
