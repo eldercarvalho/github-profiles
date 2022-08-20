@@ -43,3 +43,9 @@ final techColors = {
   "XSLT": 0xffEB8CEB,
   "Ada": 0xff02f88c,
 };
+
+ // scala
+ // objective-j
+ // clojure
+ // groovy
+ // Vim script

@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+
+import 'package:github_profiles/core/core.dart';
 import 'package:github_profiles/entities/user_entity.dart';
 import 'package:github_profiles/services/contacts/contacts_service.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HomeUsersList extends StatelessWidget {
   final List<UserEntity> users;
@@ -29,11 +29,16 @@ class HomeUsersList extends StatelessWidget {
             radius: 26,
             backgroundImage: NetworkImage(user.avatarUrl),
           ),
-          title: Text(users[index].login,
-              style: Theme.of(context).textTheme.headline6),
+          title: Text(
+            users[index].login,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.normal),
+          ),
           trailing: _checkIfUserIsInContacts(user)
               ? RawMaterialButton(
-                  onPressed: () => _callNumber(user),
+                  onPressed: () => _callNumber(context, user),
                   elevation: 2.0,
                   fillColor: Colors.green,
                   padding: const EdgeInsets.all(12.0),
@@ -56,12 +61,16 @@ class HomeUsersList extends StatelessWidget {
         false;
   }
 
-  void _callNumber(UserEntity user) async {
+  void _callNumber(BuildContext context, UserEntity user) {
     final contact =
         contacts?.singleWhere((contact) => contact.displayName == user.login);
     if (contact != null && contact.phones.isNotEmpty) {
       final phoneNumber = contact.phones.first;
-      await launchUrl(Uri.parse('tel:${phoneNumber.number}'));
+      lauchUrl(
+        context: context,
+        url: phoneNumber.number,
+        protocol: LauchProtocol.tel,
+      );
     }
   }
 }

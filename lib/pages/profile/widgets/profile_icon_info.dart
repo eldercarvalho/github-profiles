@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:github_profiles/core/theme/theme.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import 'package:github_profiles/core/core.dart';
 
 class ProfileIconInfo extends StatelessWidget {
   const ProfileIconInfo(
@@ -34,19 +34,24 @@ class ProfileIconInfo extends StatelessWidget {
             size: 20,
           ),
           const SizedBox(width: 16),
-          GestureDetector(
-            onTap: linked ? () => _openUrl(text ?? '') : null,
-            child: Text(text ?? '', style: textStyle),
-          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: linked
+                  ? () => lauchUrl(
+                        context: context,
+                        url: text ?? '',
+                        protocol: LauchProtocol.http,
+                      )
+                  : null,
+              child: Text(
+                text ?? '',
+                style: textStyle,
+                overflow: TextOverflow.fade,
+              ),
+            ),
+          )
         ]),
       ),
-    );
-  }
-
-  void _openUrl(String url) async {
-    await launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalApplication,
     );
   }
 }
