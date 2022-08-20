@@ -6,6 +6,7 @@ class UserEntity extends Equatable {
   final int id;
   final String avatarUrl;
   final String? name;
+  final String? company;
   final String? blog;
   final String? location;
   final String? email;
@@ -21,6 +22,7 @@ class UserEntity extends Equatable {
     required this.id,
     required this.avatarUrl,
     this.name,
+    this.company,
     this.blog,
     this.location,
     this.email,
@@ -34,13 +36,15 @@ class UserEntity extends Equatable {
 
   bool get hasName => name != null;
 
-  bool get hasBlog => blog != null;
+  bool get hasCompany => company != null && company!.isNotEmpty;
+
+  bool get hasBlog => blog != null && blog!.isNotEmpty;
   
   bool get hasLocation => location != null;
   
   bool get hasEmail => email != null;
   
-  bool get hasBio => bio != null;
+  bool get hasBio => bio != null && bio!.isNotEmpty;
   
   bool get hasTwitterUsername => twitterUsername != null;
   

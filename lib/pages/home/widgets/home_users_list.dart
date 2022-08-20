@@ -17,21 +17,28 @@ class HomeUsersList extends StatelessWidget {
   Widget build(BuildContext context) {
     final router = AutoRouter.of(context);
 
-    return ListView.builder(
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
       itemCount: users.length,
       itemBuilder: (context, index) {
         final user = users[index];
         return ListTile(
           leading: CircleAvatar(
-            radius: 20,
-            child: Image.network(user.avatarUrl),
+            radius: 26,
+            backgroundImage: NetworkImage(user.avatarUrl),
           ),
-          title: Text(users[index].login),
-          trailing:
-              _checkIfUserIsInContacts(user) ? const Icon(Icons.check) : null,
+          title: Text(users[index].login,
+              style: Theme.of(context).textTheme.headline6),
+          trailing: _checkIfUserIsInContacts(user)
+              ? const Icon(
+                  Icons.phone_outlined,
+                  color: Colors.green,
+                )
+              : null,
           onTap: () => router.pushNamed('/profile/${user.login}'),
         );
       },
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
     );
   }
 

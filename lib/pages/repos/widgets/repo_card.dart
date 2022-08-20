@@ -17,6 +17,7 @@ class RepoCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
+        color: onBackgroundColor,
         border: Border.all(
           color: borderColor,
           style: BorderStyle.solid,
@@ -30,7 +31,7 @@ class RepoCard extends StatelessWidget {
           Text(
             repo.name,
             style: theme.textTheme.headline6?.copyWith(
-              color: primaryColor,
+              color: theme.colorScheme.primary,
             ),
             overflow: TextOverflow.ellipsis,
           ),
@@ -38,7 +39,7 @@ class RepoCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               repo.description!,
-              style: theme.textTheme.bodyText1?.copyWith(height: 1.6),
+              style: theme.textTheme.bodyText2?.copyWith(height: 1.6),
             )
           ],
           if (repo.hasHomepage) ...[
@@ -76,22 +77,30 @@ class RepoCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   repo.language!,
-                  style: theme.textTheme.subtitle2,
+                  style: theme.textTheme.bodyText2,
                 ),
                 const SizedBox(width: 20),
               ],
-              const FaIcon(FontAwesomeIcons.codeFork, size: 16),
+              FaIcon(
+                FontAwesomeIcons.codeFork,
+                size: 16,
+                color: theme.textTheme.bodyText2?.color,
+              ),
               const SizedBox(width: 8),
               Text(
                 '${repo.forksCount}',
-                style: theme.textTheme.subtitle2,
+                style: theme.textTheme.bodyText2,
               ),
               const SizedBox(width: 20),
-              const FaIcon(FontAwesomeIcons.star, size: 16),
+              FaIcon(
+                FontAwesomeIcons.star,
+                size: 16,
+                color: theme.textTheme.bodyText2?.color,
+              ),
               const SizedBox(width: 8),
               Text(
                 '${repo.stargazersCount}',
-                style: theme.textTheme.subtitle2,
+                style: theme.textTheme.bodyText2,
               )
             ],
           ),

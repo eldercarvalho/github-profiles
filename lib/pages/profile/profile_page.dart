@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:github_profiles/core/core.dart';
+import 'package:github_profiles/entities/user_entity.dart';
 
 import 'cubit/cubit.dart';
+import 'widgets/widgets.dart';
 
 class ProfilePage extends StatefulWidget {
   final String userLogin;
@@ -46,34 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
         builder: (context, state) {
           if (state is ProfileSuccessState) {
             final user = state.user;
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Image.network(user.avatarUrl),
-                  const SizedBox(height: 20),
-                  if (user.name != null)
-                    Text(
-                      user.name!,
-                      style: theme.textTheme.headline5,
-                    ),
-                  const SizedBox(height: 20),
-                  if (user.hasBio) Text(user.bio!),
-                  if (user.hasBlog) Text(user.blog!),
-                  if (user.hasEmail) Text(user.email!),
-                  if (user.hasFollowers) Text('${user.followers}'),
-                  if (user.hasFollowing) Text('${user.following}'),
-                  if (user.hasLocation) Text(user.location!),
-                  if (user.hasCreatedAt) Text(user.readableCreatedAt!),
-                  if (user.hasTwitterUsername) Text(user.twitterUsername!),
-                  if (user.hasPublicRepos) Text('${user.publicRepos}'),
-                  ElevatedButton(
-                    onPressed: () =>
-                        router.pushNamed('/repos/${widget.userLogin}'),
-                    child: const Text('See Repos'),
-                  ),
-                ],
-              ),
-            );
+            return buildContent(user, theme, router);
           }
 
           if (state is ProfileFailureState) {
@@ -89,4 +65,96 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
+
+  Widget buildContent(
+    UserEntity user,
+    ThemeData theme,
+    StackRouter router,
+  ) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ProfileAvatar(user: user),
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (user.hasName)
+                  Text(
+                    user.name!,
+                    style: theme.textTheme.headline5,
+                  ),
+                Text(
+                  widget.userLogin,
+                  style: theme.textTheme.headline6
+                      ?.copyWith(color: Colors.white.withOpacity(0.6)),
+                ),
+                if (user.hasBio) ...[
+                  const SizedBox(height: 16),
+                  Text(
+                    user.bio!,
+                    style: theme.textTheme.bodyText2?.copyWith(height: 1.6),
+                  )
+                ],
+                const SizedBox(height: 16),
+                ProfileIconInfo(
+                  visible: user.hasBlog,
+                  iconData: Icons.link,
+                  text: user.blog,
+                ),
+                ProfileIconInfo(
+                  visible: user.hasCompany,
+                  iconData: Icons.corporate_fare,
+                  text: user.company,
+                ),
+                ProfileIconInfo(
+                  visible: user.hasLocation,
+                  iconData: Icons.location_on_outlined,
+                  text: user.location,
+                ),
+                ProfileIconInfo(
+                  visible: user.hasEmail,
+                  iconData: Icons.email,
+                  text: user.email,
+                ),
+                ProfileIconInfo(
+                  visible: user.hasTwitterUsername,
+                  iconData: FontAwesomeIcons.twitter,
+                  text: user.twitterUsername,
+                ),
+                ProfileIconInfo(
+                  visible: user.hasFollowers,
+                  iconData: Icons.group_outlined,
+                  text:
+                      '${user.followers} followers - ${user.following} following',
+                ),
+                ProfileIconInfo(
+                  visible: user.hasPublicRepos,
+                  iconData: Icons.book_outlined,
+                  text: '${user.publicRepos} public repositories',
+                ),
+                ProfileIconInfo(
+                  visible: user.hasCreatedAt,
+                  iconData: Icons.cake_outlined,
+                  text: 'User since ${user.readableCreatedAt}',
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () =>
+                      router.pushNamed('/repos/${widget.userLogin}'),
+                  child: const Text('Repositories'),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
+
+
+
+
