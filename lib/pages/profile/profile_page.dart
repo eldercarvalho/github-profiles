@@ -126,18 +126,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   text: user.twitterUsername,
                 ),
                 ProfileIconInfo(
-                  visible: user.hasFollowers,
+                  visible: true,
                   iconData: Icons.group_outlined,
                   text:
                       '${user.followers} followers - ${user.following} following',
                 ),
                 ProfileIconInfo(
-                  visible: user.hasPublicRepos,
+                  visible: true,
                   iconData: Icons.book_outlined,
                   text: '${user.publicRepos} public repositories',
                 ),
                 ProfileIconInfo(
-                  visible: user.hasCreatedAt,
+                  visible: true,
                   iconData: Icons.cake_outlined,
                   text: 'User since ${user.readableCreatedAt}',
                 ),
