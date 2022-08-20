@@ -44,6 +44,7 @@ dependencies:
   auto_route: ^5.0.0
   connectivity_plus: ^2.3.6
   intl: ^0.17.0
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:

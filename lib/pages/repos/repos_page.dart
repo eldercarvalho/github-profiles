@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:github_profiles/core/core.dart';
+import 'package:github_profiles/entities/repo_entity.dart';
+import 'package:github_profiles/pages/repos/widgets/repo_card.dart';
 
 import 'cubit/cubit.dart';
 
@@ -35,11 +38,9 @@ class _ReposPageState extends State<ReposPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.userLogin),
+        title: Text("${widget.userLogin}'s Repos"),
       ),
       body: BlocBuilder<ReposCubit, ReposState>(
         bloc: _reposCubit,
@@ -49,78 +50,7 @@ class _ReposPageState extends State<ReposPage> {
               padding: const EdgeInsets.all(16),
               itemCount: state.repos.length,
               itemBuilder: (context, index) {
-                final repo = state.repos[index];
-
-                return Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                      style: BorderStyle.solid,
-                      width: 1,
-                    ),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        repo.name,
-                        style: theme.textTheme.headline6
-                            ?.copyWith(color: Colors.blue),
-                      ),
-                      if (repo.hasDescription) ...[
-                        const SizedBox(height: 12),
-                        Text(
-                          repo.description!,
-                          style:
-                              theme.textTheme.bodyText1?.copyWith(height: 1.6),
-                        )
-                      ],
-                      if (repo.hasHomepage) ...[
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          children: [
-                            const Icon(Icons.link, size: 18),
-                            const SizedBox(width: 6),
-                            Expanded(
-                              child: Text(
-                                repo.homepage!,
-                                style: theme.textTheme.bodyText1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          if (repo.hasLanguage) ...[
-                            Text(
-                              repo.language!,
-                              style: theme.textTheme.subtitle2,
-                            ),
-                            const SizedBox(width: 20),
-                          ],
-                          const Icon(Icons.fork_left_outlined, size: 18),
-                          Text(
-                            '${repo.forksCount}',
-                            style: theme.textTheme.subtitle2,
-                          ),
-                          const SizedBox(width: 20),
-                          const Icon(Icons.star, size: 18),
-                          Text(
-                            '${repo.stargazersCount}',
-                            style: theme.textTheme.subtitle2,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                );
+                return RepoCard(repo: state.repos[index]);
               },
               separatorBuilder: (context, index) => const SizedBox(height: 16),
             );
@@ -140,3 +70,5 @@ class _ReposPageState extends State<ReposPage> {
     );
   }
 }
+
+
