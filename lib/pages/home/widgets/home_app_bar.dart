@@ -36,7 +36,13 @@ class _HomeAppBarState extends State<HomeAppBar> {
                 () => _onSearchChanged(search, homeCubit),
               ),
             )
-          : const Text('GitHub Profiles'),
+          : Row(
+              children: [
+                Image.asset('assets/images/github-logo.png'),
+                const SizedBox(width: 16),
+                const Text('Profiles'),
+              ],
+            ), //const Text('GitHub Profiles'),
       actions: [
         IconButton(
           onPressed: () => _showSearch(homeCubit),

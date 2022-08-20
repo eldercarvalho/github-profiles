@@ -52,7 +52,10 @@ class HomeUsersList extends StatelessWidget {
           onTap: () => router.pushNamed('/profile/${user.login}'),
         );
       },
-      separatorBuilder: (context, index) => const SizedBox(height: 10),
+      separatorBuilder: (context, index) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Container(height: 1, color: borderColor),
+      ),
     );
   }
 

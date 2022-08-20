@@ -7,13 +7,13 @@ final appTheme = ThemeData.dark().copyWith(
   textTheme: ThemeData.dark().textTheme.copyWith(
         bodyText1: const TextStyle(
           fontSize: 16,
-          fontFamily: "NunitoSans",
+          // fontFamily: "NunitoSans",
           color: bodyTextColor,
           fontWeight: FontWeight.w400,
         ),
         bodyText2: const TextStyle(
           fontSize: 14,
-          fontFamily: "NunitoSans",
+          // fontFamily: "NunitoSans",
           color: bodyTextColor,
           fontWeight: FontWeight.w400,
         ),
@@ -23,4 +23,5 @@ final appTheme = ThemeData.dark().copyWith(
     elevation: 0,
   ),
   scaffoldBackgroundColor: backgroundColor,
+  dividerColor: borderColor,
 );

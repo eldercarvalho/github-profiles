@@ -15,6 +15,7 @@ class HomeSearchField extends StatelessWidget {
     return TextField(
       focusNode: focusNode,
       decoration: const InputDecoration(
+        hintText: 'Ex: unclebob, torvalds',
         border: OutlineInputBorder(),
         enabledBorder: InputBorder.none,
         focusedBorder: InputBorder.none,
