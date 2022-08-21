@@ -17,7 +17,7 @@
     </queries>
 
    <application
-        android:label="github_profiles"
+        android:label="GitHub Profiles"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

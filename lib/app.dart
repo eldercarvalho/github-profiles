@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:github_profiles/core/core.dart';
+
 import 'package:github_profiles/core/theme/app_theme.dart';
 import 'package:github_profiles/routes/app_router.gr.dart';
 

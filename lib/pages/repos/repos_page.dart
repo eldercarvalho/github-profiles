@@ -57,7 +57,7 @@ class _ReposPageState extends State<ReposPage> {
                 : EmptyState(
                     imagePath: 'empty-box.png',
                     title: 'No repos',
-                    description: '${widget.userLogin} has no repositories yet asdf asdf asdf asd fasdf a',
+                    description: '${widget.userLogin} has no repositories yet',
                   );
           }
 
