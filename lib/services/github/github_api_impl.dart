@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'package:http/http.dart' as http;
 
@@ -8,9 +7,7 @@ import 'package:github_profiles/core/core.dart';
 
 import 'github_api.dart';
 
-
 const baseUrl = "https://api.github.com";
-const token = "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";
 
 final _random = Random();
 
@@ -18,9 +15,6 @@ class GitHubApiImpl implements GitHubApi {
   Future<dynamic> _request(String resource) async {
     var response = await http.get(
       Uri.parse("$baseUrl/$resource"),
-      headers: {
-        HttpHeaders.authorizationHeader: token,
-      },
     );
 
     switch (response.statusCode) {

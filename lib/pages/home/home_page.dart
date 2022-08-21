@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) async {
       await _homeCubit.fetchContacts();
-      // _homeCubit.updateTime.listen((event) => _homeCubit.fetchUsers());
+      _homeCubit.updateTime.listen((event) => _homeCubit.fetchUsers());
     });
     super.initState();
   }
