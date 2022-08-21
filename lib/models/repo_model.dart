@@ -14,14 +14,14 @@ class RepoModel extends RepoEntity {
 
   factory RepoModel.fromJson(Map<String, dynamic> json) {
     return RepoModel(
-      id: json["id"],
-      name: json["name"],
-      description: json["description"],
-      stargazersCount: json["stargazers_count"],
-      watchersCount: json["watchers_count"],
-      language: json["language"],
-      forksCount: json["forks_count"],
-      homepage: json["homepage"],
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      stargazersCount: json['stargazers_count'],
+      watchersCount: json['watchers_count'],
+      language: json['language'],
+      forksCount: json['forks_count'],
+      homepage: json['homepage'],
     );
   }
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:github_profiles/core/core.dart';
-import 'package:github_profiles/entities/repo_entity.dart';
 import 'package:github_profiles/pages/repos/widgets/repo_card.dart';
 
 import 'cubit/cubit.dart';
@@ -46,14 +44,21 @@ class _ReposPageState extends State<ReposPage> {
         bloc: _reposCubit,
         builder: (context, state) {
           if (state is SuccessState) {
-            return ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: state.repos.length,
-              itemBuilder: (context, index) {
-                return RepoCard(repo: state.repos[index]);
-              },
-              separatorBuilder: (context, index) => const SizedBox(height: 16),
-            );
+            return state.repos.isNotEmpty
+                ? ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: state.repos.length,
+                    itemBuilder: (context, index) {
+                      return RepoCard(repo: state.repos[index]);
+                    },
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 16),
+                  )
+                : EmptyState(
+                    imagePath: 'empty-box.png',
+                    title: 'No repos',
+                    description: '${widget.userLogin} has no repositories yet asdf asdf asdf asd fasdf a',
+                  );
           }
 
           if (state is FailureState) {
@@ -70,5 +75,3 @@ class _ReposPageState extends State<ReposPage> {
     );
   }
 }
-
-
